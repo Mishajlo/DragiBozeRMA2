@@ -1,5 +1,6 @@
 package com.example.dragiboze.models.repository.implemenation
 
+import android.util.Log
 import com.example.dragiboze.database.baza.AppDatabase
 import com.example.dragiboze.database.entities.MacaDbModel
 import com.example.dragiboze.database.entities.SlikaDbModel
@@ -17,6 +18,7 @@ class MjauRepositoryImpl @Inject constructor(
     override suspend fun getAllMace(): List<MacaDbModel> {
         var mace = baza.macaDao().getAll()
         if(mace.isEmpty()){
+            Log.d("Potvrda", "Usao")
             val mackice = macApi.getAllMace()
             mace = mackice.map { it.asMacaDbModel() }
             baza.macaDao().insertAll(mace)

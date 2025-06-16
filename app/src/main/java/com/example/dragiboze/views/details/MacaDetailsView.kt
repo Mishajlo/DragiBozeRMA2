@@ -1,4 +1,4 @@
-package com.example.molimteboze.views.macadetails
+package com.example.dragiboze.views.details
 
 import android.util.Log
 import androidx.compose.foundation.border
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -136,7 +135,7 @@ fun MackicaDetail(
                                         .padding(12.dp)
                                 ) {
                                     Log.d("URL MACKE", state.data.url_mace ?: "")
-                                    state.data?.url_mace.let {
+                                    state.data.url_mace.let {
                                         AsyncImage(
                                             modifier = Modifier
                                                 .clip(RoundedCornerShape(10.dp))

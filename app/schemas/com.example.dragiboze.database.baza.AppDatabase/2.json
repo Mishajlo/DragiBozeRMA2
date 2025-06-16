@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "f9323ab466a31018c902bd9fa2609a96",
+    "identityHash": "d0948a25023c1e8fcf4b15c0d3c81181",
     "entities": [
       {
         "tableName": "mace",
@@ -165,6 +165,17 @@
             "id"
           ]
         },
+        "indices": [
+          {
+            "name": "index_slike_idRase",
+            "unique": false,
+            "columnNames": [
+              "idRase"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_slike_idRase` ON `${TABLE_NAME}` (`idRase`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "mace",
@@ -266,7 +277,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f9323ab466a31018c902bd9fa2609a96')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd0948a25023c1e8fcf4b15c0d3c81181')"
     ]
   }
 }

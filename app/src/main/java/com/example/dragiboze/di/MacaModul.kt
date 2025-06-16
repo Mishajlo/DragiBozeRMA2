@@ -23,6 +23,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -71,6 +72,7 @@ object MacaModul {
 
     @Provides
     @Singleton
+    @Named("MacApiRetrofit")
     fun provideMacaRetrofit(client: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl("https://api.thecatapi.com/v1/")
@@ -80,6 +82,7 @@ object MacaModul {
 
     @Provides
     @Singleton
+    @Named("TakmicarApiRetrofit")
     fun provideTakmicarRetrofit(client: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl("https://rma.finlab.rs/")
@@ -90,12 +93,12 @@ object MacaModul {
 
     @Provides
     @Singleton
-    fun provideMacApi(retrofit: Retrofit): MacApi =
+    fun provideMacApi(@Named("MacApiRetrofit") retrofit: Retrofit): MacApi =
         retrofit.create(MacApi::class.java)
 
     @Provides
     @Singleton
-    fun provideTakmicarApi(retrofit: Retrofit): TakmicarApi =
+    fun provideTakmicarApi(@Named("TakmicarApiRetrofit") retrofit: Retrofit): TakmicarApi =
         retrofit.create(TakmicarApi::class.java)
 
 

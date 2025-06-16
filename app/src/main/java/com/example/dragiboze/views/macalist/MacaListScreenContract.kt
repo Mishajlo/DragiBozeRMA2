@@ -1,6 +1,6 @@
-package com.example.molimteboze.views.macalist
+package com.example.dragiboze.views.macalist
 
-import com.example.molimteboze.models.data.MacaUiModel
+import com.example.dragiboze.models.data.MacaUiModel
 
 interface MacaListScreenContract {
 

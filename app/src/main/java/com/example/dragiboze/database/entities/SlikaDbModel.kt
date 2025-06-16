@@ -1,5 +1,6 @@
 package com.example.dragiboze.database.entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -18,6 +19,7 @@ import androidx.room.PrimaryKey
 data class SlikaDbModel (
     @PrimaryKey val id: String,
     val url: String,
+    @ColumnInfo(index = true)
     val idRase: String,
     val sirina: Int,
     val visina: Int

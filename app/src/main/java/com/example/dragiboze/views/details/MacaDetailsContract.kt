@@ -1,6 +1,7 @@
-package com.example.molimteboze.views.macadetails
+package com.example.dragiboze.views.details
 
 import com.example.dragiboze.models.data.MacaDetailsModel
+
 
 interface MacaDetailsScreenContract {
 
@@ -17,3 +18,4 @@ interface MacaDetailsScreenContract {
     }
 
 }
+

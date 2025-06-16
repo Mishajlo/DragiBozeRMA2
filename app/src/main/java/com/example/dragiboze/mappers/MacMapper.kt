@@ -2,6 +2,7 @@ package com.example.dragiboze.mappers
 
 import com.example.dragiboze.database.entities.MacaDbModel
 import com.example.dragiboze.models.api.models.MacApiModel
+import com.example.dragiboze.models.data.MacaUiModel
 
 fun MacApiModel.asMacaDbModel() = MacaDbModel(
     id = id,
@@ -19,8 +20,16 @@ fun MacApiModel.asMacaDbModel() = MacaDbModel(
     dog_friendly = dog_friendly,
     stranger_friendly = stranger_friendly,
     wikipedia_url = wikipedia_url.toString(),
-    imageUrl = imageUrl.toString(),
+    imageUrl = image?.url.toString(),
     imperial = weight.imperial,
     metric = weight.metric
+)
+
+fun MacaDbModel.asMacaUiModel() = MacaUiModel(
+    id_mace = id,
+    ime_rase = name,
+    alt_ime = alt_names,
+    opis = description,
+    temperament = temperament.split(",")
 )
 
