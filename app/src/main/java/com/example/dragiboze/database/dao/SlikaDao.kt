@@ -17,7 +17,7 @@ interface SlikaDao {
     suspend fun insert(slikaDbModel: SlikaDbModel)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun instertAll(listSlika: List<SlikaDbModel>)
+    suspend fun insertAll(listSlika: List<SlikaDbModel>)
 
     @Query("Select count(*) from slike where idRase = :idMace")
     suspend fun countImagesById(idMace: String): Int

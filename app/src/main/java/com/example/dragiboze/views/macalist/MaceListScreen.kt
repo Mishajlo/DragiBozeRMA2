@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,6 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.molimteboze.views.macalist.MaceListViewModel
+import com.example.dragiboze.ui.theme.*
 
 fun NavGraphBuilder.mace(
     route: String,
@@ -63,7 +66,7 @@ fun NavGraphBuilder.mace(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun MaceListScreen(
     state: MacaListScreenContract.UiState,
@@ -83,7 +86,8 @@ fun MaceListScreen(
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Cursive
-                    )
+                    ),
+                    color = Back
                 )
             })
         },
@@ -161,7 +165,7 @@ fun MaceListScreen(
                                         .padding(horizontal = 10.dp)
                                         .padding(18.dp)
                                         .clickable { onMacaClick(maca.id_mace) },
-                                    colors = CardDefaults.cardColors()
+                                    colors = CardDefaults.cardColors(Back)
                                 ) {
                                     Column {
                                         Text(
@@ -191,21 +195,29 @@ fun MaceListScreen(
                                             style = MaterialTheme.typography.bodyLarge
                                         )
 
-                                        if (maca.temperament.isNotEmpty()){
-                                            var brojac = 0
-                                            maca.temperament.forEach { trait ->
-                                                if (brojac < 5) {
-                                                    Row {
-                                                        SuggestionChip(
-                                                            modifier = Modifier
-                                                                .padding(horizontal = 2.dp)
-                                                                .padding(vertical = 2.dp),
-                                                            onClick = { Log.d("Trait", trait) },
-                                                            label = { Text(trait) }
-                                                        )
+                                        FlowRow(
+                                            horizontalArrangement = Arrangement.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .align(Alignment.CenterHorizontally)
+                                                .padding(5.dp)
+                                        ){
+                                            if (maca.temperament.isNotEmpty()) {
+                                                var brojac = 0
+                                                maca.temperament.forEach { trait ->
+                                                    if (brojac < 5) {
+                                                        Row {
+                                                            SuggestionChip(
+                                                                modifier = Modifier
+                                                                    .padding(horizontal = 5.dp)
+                                                                    .padding(vertical = 2.dp),
+                                                                onClick = { Log.d("Trait", trait) },
+                                                                label = { Text(trait) }
+                                                            )
+                                                        }
                                                     }
+                                                    brojac++
                                                 }
-                                                brojac++
                                             }
                                         }
                                     }

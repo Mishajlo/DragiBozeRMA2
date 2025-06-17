@@ -9,10 +9,10 @@ import com.example.dragiboze.models.data.DebelaMaca
 import com.example.dragiboze.models.data.MacaDetailsModel
 import com.example.dragiboze.models.data.MackicaSlicica
 import com.example.dragiboze.models.repository.interfaces.MjauRepository
+import com.example.dragiboze.views.details.MacaDetailsContract.UiState
+import com.example.dragiboze.views.details.MacaDetailsContract.errorOnData
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
-import com.example.dragiboze.views.details.MacaDetailsScreenContract.UiState
-import com.example.dragiboze.views.details.MacaDetailsScreenContract.errorOnData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.asStateFlow

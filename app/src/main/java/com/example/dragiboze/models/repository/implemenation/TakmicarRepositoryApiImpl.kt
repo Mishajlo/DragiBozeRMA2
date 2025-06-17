@@ -10,24 +10,22 @@ import com.example.dragiboze.models.repository.interfaces.TakmicarRepository
 import com.example.meoworld.data.datastore.UserStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class TakmicarRepositoryImpl @Inject constructor(
+class TakmicarRepositoryApiImpl @Inject constructor(
     private val baza: AppDatabase,
     private val stor: UserStore,
     private val takmicarApi: TakmicarApi
 ): TakmicarRepository {
 
     override suspend fun sviTakmicari(idKategorije: Int): List<TakmicarApiModel> {
+        var takmicari = emptyList<TakmicarApiModel>()
         withContext(Dispatchers.IO){
-            val takmicari = takmicarApi.getLeaderboard(idKategorije)
-            baza.takmicarDao().deleteAll()
-            baza.takmicarDao().insertAll(takmicari.map { takmicar ->
-                takmicar.asTakmicarDbModel( takmicari.count{ it.nickname == takmicar.nickname } )
-            })
+            takmicari = takmicarApi.getLeaderboard(idKategorije)
         }
-        return emptyList()
+        return takmicari
     }
 
     override suspend fun objaviRezultat(idKategorije: Int, rezultat: Double) {
@@ -41,9 +39,8 @@ class TakmicarRepositoryImpl @Inject constructor(
             )
         }
 
-        val poslednji = baza.igraDao().getLast()
 
-        poslednji.let {
+        baza.igraDao().getLast().let {
             it.objavi = true
             baza.igraDao().update(it)
         }
@@ -51,8 +48,7 @@ class TakmicarRepositoryImpl @Inject constructor(
     }
 
     override fun observeTakmicare(): Flow<List<TakmicarDbModel>> {
-        return baza.takmicarDao().observeAll()
+        return emptyFlow()
     }
-
 
 }

@@ -15,4 +15,6 @@ interface KorisnikRepository {
 
     suspend fun getNo1(): Pair<Int, Double>
 
+    suspend fun isRegistered(): Boolean
+
 }

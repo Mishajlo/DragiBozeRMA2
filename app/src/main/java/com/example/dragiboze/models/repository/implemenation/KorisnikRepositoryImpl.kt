@@ -37,4 +37,8 @@ class KorisnikRepositoryImpl @Inject constructor(
         }
         return baza.takmicarDao().getBestForKorisnik(stor.getUserData().korisnickoIme)
     }
+
+    override suspend fun isRegistered(): Boolean {
+        return stor.isUserRegistered()
+    }
 }

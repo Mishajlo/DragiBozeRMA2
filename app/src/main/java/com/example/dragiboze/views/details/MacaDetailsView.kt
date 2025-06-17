@@ -2,8 +2,11 @@ package com.example.dragiboze.views.details
 
 import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,10 +46,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import coil3.compose.AsyncImage
+import com.example.dragiboze.ui.theme.Accent
+import com.example.dragiboze.ui.theme.Back
+import com.example.dragiboze.ui.theme.Bronze
+import com.example.dragiboze.ui.theme.Lavander
+import com.example.dragiboze.ui.theme.RoyalBlue
+import com.example.dragiboze.ui.theme.Yellow
+import com.example.dragiboze.views.details.MacaDetailsContract
 
 fun NavGraphBuilder.maca(
     route: String,
-    onClose: () -> Unit
+    onClose: () -> Unit,
+    galerijaKlik: (String, String) -> Unit
 ) = composable (
     route = route
 ) {
@@ -63,16 +74,18 @@ fun NavGraphBuilder.maca(
 
     MackicaDetail(
         state = state.value,
-        onClose = onClose
+        onClose = onClose,
+        galerijaKlik = galerijaKlik
     )
 
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 fun MackicaDetail(
-    state: MacaDetailsScreenContract.UiState,
-    onClose: () -> Unit
+    state: MacaDetailsContract.UiState,
+    onClose: () -> Unit,
+    galerijaKlik: (String, String) -> Unit,
 ){
     val scrollState = rememberScrollState()
     Scaffold(
@@ -106,7 +119,7 @@ fun MackicaDetail(
                             contentAlignment = Alignment.Center,
                         ){
                             val greska = when(state.error){
-                                is MacaDetailsScreenContract.errorOnData.dataFail ->
+                                is MacaDetailsContract.errorOnData.dataFail ->
                                     "Nesto je puklooo. Error kaze: ${state.error.error?.message}"
                             }
                             Text(text = greska)
@@ -141,7 +154,7 @@ fun MackicaDetail(
                                                 .clip(RoundedCornerShape(10.dp))
                                                 .border(
                                                     5.dp,
-                                                    Color.Red,
+                                                    Bronze,
                                                     RoundedCornerShape(10.dp)
                                                 ),
                                             model = it,
@@ -150,6 +163,19 @@ fun MackicaDetail(
                                         )
                                     }
                                 }
+                                Button(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    onClick = { galerijaKlik(state.data.ime_rase, state.data.id_mace) },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Back,
+                                        contentColor = RoyalBlue
+                                    )
+                                ) {
+                                    Icon(Icons.Filled.Info, contentDescription = null)
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text("Galerija")
+                                }
                                 Column(
                                     modifier = Modifier
                                         .padding(5.dp)
@@ -157,7 +183,7 @@ fun MackicaDetail(
                                     Text(
                                         text = "O Maci:",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     Text(
                                         text = state.data.opis,
@@ -173,9 +199,15 @@ fun MackicaDetail(
                                     Text(
                                         text = "Temperament:",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
-                                    if (!state.data.temperament.isEmpty()) {
+                                    if (!state.data.temperament.isEmpty()) {FlowRow(
+                                        horizontalArrangement = Arrangement.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(5.dp)
+                                    ){
                                         state.data.temperament.forEach { trait ->
                                             SuggestionChip(
                                                 modifier = Modifier
@@ -184,7 +216,7 @@ fun MackicaDetail(
                                                 onClick = { Log.d("Trait", trait) },
                                                 label = { Text(trait) }
                                             )
-                                        }
+                                        }}
                                     }
                                 }
 
@@ -195,7 +227,7 @@ fun MackicaDetail(
                                     Text(
                                         text = "Poreklo:",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     Text(
                                         text = state.data.poreklo,
@@ -211,7 +243,7 @@ fun MackicaDetail(
                                         Text(
                                             text = "Retkost: ${state.data.retkost}/5",
                                             style = MaterialTheme.typography.titleMedium,
-                                            color = Color.Blue
+                                            color = RoyalBlue
                                         )
                                     }
                                 }
@@ -222,7 +254,7 @@ fun MackicaDetail(
                                     Text(
                                         text = "Koliko dugo zive?",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     Text(
                                         text = state.data.zivot + " godina",
@@ -237,7 +269,7 @@ fun MackicaDetail(
                                     Text(
                                         text = "Koliko debelo:",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     Text(
                                         text = state.data.debel.metric + "kg",
@@ -254,13 +286,13 @@ fun MackicaDetail(
                                     Text(
                                         text = "Pamet: " + state.data.intelligence + "/5",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     LinearProgressIndicator(
                                         modifier = Modifier
                                             .fillMaxWidth(),
-                                        color = Color.Green,
-                                        trackColor = Color.DarkGray,
+                                        color = Lavander,
+                                        trackColor = Yellow,
                                         strokeCap = StrokeCap.Square,
                                         progress = { state.data.intelligence / 5f }
                                     )
@@ -273,13 +305,13 @@ fun MackicaDetail(
                                     Text(
                                         text = "Pristrasnost: " + state.data.affection_level + "/5",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     LinearProgressIndicator(
                                         modifier = Modifier
                                             .fillMaxWidth(),
-                                        color = Color.Green,
-                                        trackColor = Color.DarkGray,
+                                        color = Lavander,
+                                        trackColor = Yellow,
                                         strokeCap = StrokeCap.Square,
                                         progress = { state.data.affection_level / 5f }
                                     )
@@ -291,13 +323,13 @@ fun MackicaDetail(
                                     Text(
                                         text = "Dobre sa psima: " + state.data.dog_friendly + "/5",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     LinearProgressIndicator(
                                         modifier = Modifier
                                             .fillMaxWidth(),
-                                        color = Color.Green,
-                                        trackColor = Color.DarkGray,
+                                        color = Lavander,
+                                        trackColor = Yellow,
                                         strokeCap = StrokeCap.Square,
                                         progress = { state.data.dog_friendly / 5f }
                                     )
@@ -310,13 +342,13 @@ fun MackicaDetail(
                                     Text(
                                         text = "Dobre sa strancima: " + state.data.stranger_friendly + "/5",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     LinearProgressIndicator(
                                         modifier = Modifier
                                             .fillMaxWidth(),
-                                        color = Color.Green,
-                                        trackColor = Color.DarkGray,
+                                        color = Lavander,
+                                        trackColor = Yellow,
                                         strokeCap = StrokeCap.Square,
                                         progress = { state.data.stranger_friendly / 5f }
                                     )
@@ -329,13 +361,13 @@ fun MackicaDetail(
                                     Text(
                                         text = "Dobre sa decom: " + state.data.child_friendly + "/5",
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = Color.Red
+                                        color = RoyalBlue
                                     )
                                     LinearProgressIndicator(
                                         modifier = Modifier
                                             .fillMaxWidth(),
-                                        color = Color.Green,
-                                        trackColor = Color.DarkGray,
+                                        color = Lavander,
+                                        trackColor = Yellow,
                                         strokeCap = StrokeCap.Square,
                                         progress = { state.data.child_friendly / 5f }
                                     )
@@ -355,8 +387,8 @@ fun MackicaDetail(
                                                 .fillMaxWidth(),
                                             onClick = { zaWiki.openUri(it) },
                                             colors = ButtonDefaults.buttonColors(
-                                                containerColor = Color.Green,
-                                                contentColor = Color.Red
+                                                containerColor = Lavander,
+                                                contentColor = Bronze
                                             )
                                         ) {
                                             Icon(Icons.Filled.Info, contentDescription = null)

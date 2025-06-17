@@ -27,7 +27,7 @@ class MjauRepositoryImpl @Inject constructor(
                 val imageCount = baza.slikaDao().countImagesById(breed.id)
                 if (imageCount == 0) {
                     val images = macApi.getSlikeZaMacu(breed.id)
-                    baza.slikaDao().instertAll(images.map { it.asSlikaDbModel(breed.id) })
+                    baza.slikaDao().insertAll(images.map { it.asSlikaDbModel(breed.id) })
                 }
             }
         }
@@ -43,6 +43,9 @@ class MjauRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getImagesForMaca(macaId: String): List<SlikaDbModel> {
+        val images = macApi.getSlikeZaMacu(macaId)
+        baza.slikaDao().insertAll(images.map { it.asSlikaDbModel(macaId) })
+        Log.d("Imali", baza.slikaDao().getAllById(macaId).isEmpty().toString())
         return baza.slikaDao().getAllById(macaId)
     }
 

@@ -6,6 +6,7 @@ import com.example.dragiboze.models.api.interfaces.TakmicarApi
 import com.example.dragiboze.models.repository.implemenation.KorisnikRepositoryImpl
 import com.example.dragiboze.models.repository.implemenation.KvizRepositoryImpl
 import com.example.dragiboze.models.repository.implemenation.MjauRepositoryImpl
+import com.example.dragiboze.models.repository.implemenation.TakmicarRepositoryApiImpl
 import com.example.dragiboze.models.repository.implemenation.TakmicarRepositoryImpl
 import com.example.dragiboze.models.repository.interfaces.KorisnikRepository
 import com.example.dragiboze.models.repository.interfaces.KvizRepository
@@ -42,7 +43,7 @@ object MacaModul {
     @Provides
     @Singleton
     fun bindsTakmicarRepository(baza: AppDatabase , stor: UserStore, tak: TakmicarApi): TakmicarRepository =
-        TakmicarRepositoryImpl(baza, stor, tak)
+        TakmicarRepositoryApiImpl(baza, stor, tak)
 
     @Provides
     @Singleton

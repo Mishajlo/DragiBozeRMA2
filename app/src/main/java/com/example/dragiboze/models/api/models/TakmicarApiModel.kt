@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TakmicarApiModel(
-    val category: Int = 0,
+    val category: Int = 1,
     val nickname: String = "",
     val result: Double = 0.0,
     val createdAt: Long = 0L
